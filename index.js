@@ -18,15 +18,10 @@ app.get("/api/extract", async (req, res) => {
     });
 
     const page = await browser.newPage();
-
     await page.setUserAgent(
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
     );
-
     await page.goto(url, { waitUntil: "networkidle2", timeout: 0 });
-
-    // ページが完全に描画されるまで待機
-    await page.waitForSelector("dl.blogDtlInner", { timeout: 15000 });
 
     const data = await page.evaluate(() => {
       const title = document.querySelector("dl.blogDtlInner dt")?.innerText.trim() || "";
@@ -38,6 +33,7 @@ app.get("/api/extract", async (req, res) => {
         .trim();
 
       const image = document.querySelector("dl.blogDtlInner dd img")?.src || "";
+
       return { title, text, image };
     });
 
