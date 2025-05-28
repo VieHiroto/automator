@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: hotpepper-extractor-python
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "python app.py"
+    plan: free
